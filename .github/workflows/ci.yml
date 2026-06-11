@@ -78,17 +78,3 @@ jobs:
 
       - name: Build
         run: npm run build
-
-  greptile:
-    name: Greptile Code Review
-    runs-on: ubuntu-latest
-    if: github.event_name == 'pull_request'
-    permissions:
-      pull-requests: write
-    steps:
-      - uses: actions/checkout@v4
-
-      - uses: greptileai/greptile-action@v1
-        with:
-          github_token: ${{ secrets.GITHUB_TOKEN }}
-          greptile_token: ${{ secrets.GREPTILE_API_KEY }}
