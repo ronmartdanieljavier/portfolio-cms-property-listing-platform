@@ -1,0 +1,1 @@
+npx lint-staged   # or whatever you actually want to run pre-commit
