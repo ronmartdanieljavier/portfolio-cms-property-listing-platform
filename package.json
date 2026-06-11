@@ -2,9 +2,22 @@
   "devDependencies": {
     "@commitlint/cli": "^21.0.2",
     "@commitlint/config-conventional": "^21.0.2",
-    "husky": "^9.1.7"
+    "husky": "^9.1.7",
+    "prettier": "^3.8.4"
   },
   "scripts": {
     "prepare": "husky"
+  },
+  "lint-staged": {
+    "**/*": "prettier --write --ignore-unknown"
+  },
+  "commitlint": {
+    "extends": [
+      "@commitlint/config-conventional"
+    ],
+    "scope-case": [
+      "lower-case",
+      "kebab-case"
+    ]
   }
 }
