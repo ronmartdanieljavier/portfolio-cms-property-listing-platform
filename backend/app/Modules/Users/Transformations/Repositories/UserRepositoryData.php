@@ -15,7 +15,7 @@ class UserRepositoryData extends Data
         #[WithCast(TrimmedStringCast::class)]
         public string $email,
         #[WithCast(TrimmedStringCast::class)]
-        public string $role,
+        public string $role = 'agent',
         #[WithCast(TrimmedStringCast::class)]
         public string $password = '',
         #[MapInputName('is_active')]

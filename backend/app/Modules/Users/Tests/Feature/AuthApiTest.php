@@ -6,13 +6,12 @@ use Illuminate\Foundation\Testing\LazilyRefreshDatabase;
 uses(LazilyRefreshDatabase::class);
 
 describe('register', function () {
-    it('registers a new agent user', function () {
+    it('registers a new user as agent by default', function () {
         $response = $this->postJson('/api/auth/register', [
             'name' => 'John Doe',
             'email' => 'john@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'role' => 'agent',
         ]);
 
         $response->assertStatus(201)
@@ -20,30 +19,6 @@ describe('register', function () {
             ->assertJsonPath('user.role', 'agent');
 
         $this->assertDatabaseHas('users', ['email' => 'john@example.com', 'role' => 'agent']);
-    });
-
-    it('registers a new admin user', function () {
-        $response = $this->postJson('/api/auth/register', [
-            'name' => 'Admin User',
-            'email' => 'admin@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-            'role' => 'admin',
-        ]);
-
-        $response->assertStatus(201)
-            ->assertJsonPath('user.role', 'admin');
-    });
-
-    it('fails with invalid role', function () {
-        $this->postJson('/api/auth/register', [
-            'name' => 'Test',
-            'email' => 'test@example.com',
-            'password' => 'password',
-            'password_confirmation' => 'password',
-            'role' => 'superuser',
-        ])->assertUnprocessable()
-            ->assertJsonValidationErrors('role');
     });
 
     it('fails with duplicate email', function () {
@@ -54,7 +29,6 @@ describe('register', function () {
             'email' => 'taken@example.com',
             'password' => 'password',
             'password_confirmation' => 'password',
-            'role' => 'agent',
         ])->assertUnprocessable()
             ->assertJsonValidationErrors('email');
     });
