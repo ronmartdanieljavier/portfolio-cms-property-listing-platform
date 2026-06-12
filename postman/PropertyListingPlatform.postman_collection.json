@@ -409,7 +409,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"agentId\": 1,\n      \"title\": \"Beautiful House in Sydney\",\n      \"description\": \"A stunning property with ocean views.\",\n      \"price\": \"750000.00\",\n      \"propertyType\": \"house\",\n      \"status\": \"for_sale\",\n      \"bedrooms\": 3,\n      \"bathrooms\": 2,\n      \"floorArea\": \"180.50\",\n      \"lotArea\": \"350.00\",\n      \"floors\": 2,\n      \"address\": \"12 Harbour St\",\n      \"city\": \"Sydney\",\n      \"province\": \"New South Wales\",\n      \"country\": \"AU\",\n      \"zipCode\": \"2000\",\n      \"latitude\": \"-33.8688000\",\n      \"longitude\": \"151.2093000\",\n      \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"id\": 1,\n      \"amenities\": [\n        { \"id\": 1, \"name\": \"Swimming Pool\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n        { \"id\": 2, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n      ]\n    }\n  ],\n  \"first_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"next_page_url\": null,\n  \"path\": \"http://api.localhost/api/properties\",\n  \"per_page\": 15,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
+              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"agentId\": 1,\n      \"title\": \"Beautiful House in Sydney\",\n      \"description\": \"A stunning property with ocean views.\",\n      \"price\": \"750000.00\",\n      \"propertyType\": \"house\",\n      \"status\": \"for_sale\",\n      \"bedrooms\": 3,\n      \"bathrooms\": 2,\n      \"floorArea\": \"180.50\",\n      \"lotArea\": \"350.00\",\n      \"floors\": 2,\n      \"address\": \"12 Harbour St\",\n      \"city\": \"Sydney\",\n      \"state\": \"New South Wales\",\n      \"country\": \"AU\",\n      \"postcode\": \"2000\",\n      \"latitude\": \"-33.8688000\",\n      \"longitude\": \"151.2093000\",\n      \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"id\": 1,\n      \"amenities\": [\n        { \"id\": 1, \"name\": \"Swimming Pool\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n        { \"id\": 2, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n      ]\n    }\n  ],\n  \"first_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"next_page_url\": null,\n  \"path\": \"http://api.localhost/api/properties\",\n  \"per_page\": 15,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
             },
             {
               "name": "401 Unauthorized",
@@ -458,7 +458,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"state\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"postcode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "404 Not Found",
@@ -500,7 +500,7 @@
             ],
             "body": {
               "mode": "raw",
-              "raw": "{\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688\",\n  \"longitude\": \"151.2093\"\n}",
+              "raw": "{\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"state\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"postcode\": \"2000\",\n  \"latitude\": \"-33.8688\",\n  \"longitude\": \"151.2093\"\n}",
               "options": {
                 "raw": {
                   "language": "json"
@@ -522,7 +522,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"state\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"postcode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "401 Unauthorized",
@@ -540,7 +540,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"message\": \"The propertyType field is required.\",\n  \"errors\": {\n    \"title\": [\"The title field is required.\"],\n    \"price\": [\"The price field is required.\"],\n    \"propertyType\": [\"The propertyType field is required.\"],\n    \"address\": [\"The address field is required.\"],\n    \"city\": [\"The city field is required.\"],\n    \"province\": [\"The province field is required.\"]\n  }\n}"
+              "body": "{\n  \"message\": \"The propertyType field is required.\",\n  \"errors\": {\n    \"title\": [\"The title field is required.\"],\n    \"price\": [\"The price field is required.\"],\n    \"propertyType\": [\"The propertyType field is required.\"],\n    \"address\": [\"The address field is required.\"],\n    \"city\": [\"The city field is required.\"],\n    \"state\": [\"The state field is required.\"]\n  }\n}"
             }
           ]
         },
@@ -593,7 +593,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Updated House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"800000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"sold\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T01:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Updated House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"800000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"sold\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"state\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"postcode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T01:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "403 Forbidden",

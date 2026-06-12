@@ -1,5 +1,66 @@
 # Release Notes
 
+## [Unreleased] — frontend-react-manage-property
+
+### Added
+
+#### Role-Based Navigation Layout (`frontend-react/src/layouts/AuthLayout.tsx`)
+
+- `AuthLayout` — persistent sidebar layout wrapping all authenticated routes; shows the signed-in user's name and role, a role-aware nav (Agent Users visible to admins only, Properties visible to all), and a Sign out button with loading state
+- `AdminRoute` — route guard component that redirects non-admin users to `/dashboard`
+
+#### Properties Management (`frontend-react/src/pages/Properties/`)
+
+- `Properties` page — full CRUD UI for property listings; card grid with property details (type, status, price, address, city, state); inline create, edit, and delete actions with confirmation; error and loading states throughout
+- `PropertyForm` — shared create/edit form covering all property fields: title, price, type, status, bedrooms, bathrooms, address, city, state (AU state dropdown), postcode, and description
+- `AmenityManager` — inline amenity picker on each property card; loads all available amenities and syncs the selection to the property via the amenities sync endpoint
+
+#### Agent Users Management (`frontend-react/src/pages/AgentUsers/AgentUsers.tsx`)
+
+- `AgentUsers` page — admin-only table listing all agent accounts; supports toggle active/inactive status and force-logout (revokes all sessions) per user; toast notifications for action outcomes
+
+#### Service Layer (`frontend-react/src/services/`)
+
+- `propertiesApi.ts` — typed wrappers for `GET /api/properties`, `POST /api/properties`, `PUT /api/properties/{id}`, `DELETE /api/properties/{id}`
+- `amenitiesApi.ts` — typed wrappers for `GET /api/amenities`, `POST /api/properties/{id}/amenities`, `PUT /api/properties/{id}/amenities`, `DELETE /api/properties/{id}/amenities/{amenityId}`
+- `usersApi.ts` — typed wrappers for `GET /api/admin/users`, `PATCH /api/admin/users/{id}/toggle-status`, `DELETE /api/admin/users/{id}/force-logout`
+
+#### Routing (`frontend-react/src/App.tsx`)
+
+- Authenticated routes now render inside `AuthLayout` via a nested `<Route>` layout pattern
+- `/dashboard` — welcome page (no sidebar header; moved to layout)
+- `/agent-users` — admin-only; guarded by `AdminRoute`
+- `/properties` — available to all authenticated users
+
+#### TypeScript Types (`frontend-react/src/types/property.ts`)
+
+- `Property` interface updated: `province` renamed to `state`; `zipCode` renamed to `postcode`
+- `CreatePropertyForm` updated to match: `state` (required), `postcode` (optional)
+
+### Changed
+
+#### Dashboard (`frontend-react/src/pages/Dashboard.tsx`)
+
+- Removed standalone header and sign-out button; those are now provided by `AuthLayout`
+
+### Backend
+
+#### Database Migration
+
+- `2026_06_12_090417` — renames `province` → `state` and `zip_code` → `postcode` on the `properties` table
+
+#### API Contract
+
+- All property endpoints: request field `province` renamed to `state`; `zipCode` renamed to `postcode`
+- `CreatePropertyRequest` and `UpdatePropertyRequest` updated to validate `state` and `postcode`
+- `PropertyModel`, `PropertyRepositoryData`, `PropertyCoreData`, `PropertyModelFactory` updated to reflect the new column names
+
+#### Postman
+
+- Postman collection updated — `Create Property` request body updated: `province` → `state`, `zipCode` → `postcode`; validation error response example updated accordingly
+
+---
+
 ## [Unreleased] — frontend-login
 
 ### Added

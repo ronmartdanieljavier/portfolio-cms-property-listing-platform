@@ -39,7 +39,7 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
 | `PUT` / `PATCH` | `/api/properties/{id}` | Update a property (owner only)      | Sanctum |
 | `DELETE`        | `/api/properties/{id}` | Soft-delete a property (owner only) | Sanctum |
 
-> Request bodies use camelCase keys: `propertyType`, `floorArea`, `lotArea`, `zipCode`. `propertyType` must be one of `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` must be one of `for_sale`, `for_rent`, `sold`, `rented`; defaults to `for_sale` on creation. List endpoint returns 15 results per page. List and detail responses include an `amenities` array.
+> Request bodies use camelCase keys: `propertyType`, `floorArea`, `lotArea`, `state`, `postcode`. `propertyType` must be one of `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` must be one of `for_sale`, `for_rent`, `sold`, `rented`; defaults to `for_sale` on creation. List endpoint returns 15 results per page. List and detail responses include an `amenities` array.
 
 ### Amenities
 
