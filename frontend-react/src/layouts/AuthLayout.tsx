@@ -1,4 +1,4 @@
-import { NavLink, Outlet } from "react-router-dom";
+import { NavLink, Outlet, useNavigate } from "react-router-dom";
 import { useLogout } from "../hooks/useAuth";
 import type { User } from "../types/auth";
 
@@ -20,6 +20,7 @@ const navLinkClass = ({ isActive }: { isActive: boolean }) =>
 
 export default function AuthLayout() {
   const { logout, processing } = useLogout();
+  const navigate = useNavigate();
   const user = getUser();
   const isAdmin = user?.role === "admin";
 
@@ -47,7 +48,13 @@ export default function AuthLayout() {
           </NavLink>
         </nav>
 
-        <div className="px-3 py-4 border-t border-gray-200">
+        <div className="px-3 py-4 border-t border-gray-200 space-y-2">
+          <button
+            onClick={() => navigate("/profile")}
+            className="w-full rounded-lg border border-gray-300 bg-white px-3 py-2 text-sm font-medium text-gray-700 hover:bg-gray-50 focus:outline-none focus:ring-2 focus:ring-indigo-500 transition"
+          >
+            Profile
+          </button>
           <button
             onClick={logout}
             disabled={processing}

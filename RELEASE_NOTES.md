@@ -1,5 +1,53 @@
 # Release Notes
 
+## [Unreleased] — feature/manage-users
+
+### Added
+
+#### Admin User Management (`/api/admin/users`)
+
+- `GET /api/admin/users` — list all users; requires `admin` role
+- `POST /api/admin/users` — register a new user with `name`, `email`, `password`, `password_confirmation`, and optional `role` (`agent` default); does not issue a session token to the created user; requires `admin` role
+- `PATCH /api/admin/users/{user}` — update a non-admin user's `name`, `email`, `role`, and/or `password`; returns the updated user model; blocked for admin targets (403); requires `admin` role
+- `DELETE /api/admin/users/{user}` — permanently delete a non-admin user and revoke all their tokens; blocked for admin targets (403); requires `admin` role
+- `DELETE /api/admin/users/{user}/force-logout` — now explicitly blocked for admin targets (403); previously had no admin guard
+
+#### Profile Endpoints (`/api/profile`)
+
+- `GET /api/profile` — return the authenticated user's own profile; requires Sanctum bearer token
+- `PATCH /api/profile` — update own `name`, `email`, and/or `password`; password change is optional (omit field to keep current); returns the updated user model; requires Sanctum bearer token
+
+#### Agent Users Page (`frontend-react/src/pages/AgentUsers/AgentUsers.tsx`)
+
+- **Register User** — "Register User" button opens a modal form (name, email, role, password, confirm password); new user is appended to the table on success; API validation errors shown inline per field
+- **Edit User** — "Edit" button per non-admin row opens a pre-filled modal (name, email, role, optional password change); confirm password field appears only when a new password is typed; table row updates in place on save
+- **Delete User** — "Delete" button per non-admin row with confirmation prompt; row is removed from the table on success
+- All three action buttons (Edit, Activate/Deactivate, Force logout, Delete) are hidden for admin-role rows
+
+#### Profile Page (`frontend-react/src/pages/Profile/Profile.tsx`)
+
+- New page at `/profile` available to all authenticated users
+- Pre-filled form with the current user's name and email (read from `localStorage`)
+- Optional password change: confirm field appears only when a new password is typed
+- Updates `localStorage` with the returned user on success so the sidebar name/role reflect changes immediately
+
+#### Navigation (`frontend-react/src/layouts/AuthLayout.tsx`)
+
+- **Profile** button added to the bottom sidebar section alongside Sign out; navigates to `/profile`
+- **Properties page** — "Add property", Edit, Delete, and Amenities toggle buttons are hidden when the logged-in user has the `admin` role
+- **AmenityManager** — added `readOnly` prop; when `true`, the amenity dropdown, Add button, Sync button, and `×` remove buttons are all hidden
+
+#### Service Layer (`frontend-react/src/services/`)
+
+- `usersApi.ts` — added `registerUser()` (`POST /admin/users`), `updateUser()` (`PATCH /admin/users/{id}`), `deleteUser()` (`DELETE /admin/users/{id}`)
+- `profileApi.ts` — new file; `updateProfile()` (`PATCH /profile`)
+
+#### Routing (`frontend-react/src/App.tsx`)
+
+- `/profile` route added, available to all authenticated users inside `AuthLayout`
+
+---
+
 ## [Unreleased] — frontend-react-manage-property
 
 ### Added
