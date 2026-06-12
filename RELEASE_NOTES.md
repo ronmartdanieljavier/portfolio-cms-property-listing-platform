@@ -1,5 +1,14 @@
 # Release Notes
 
+## [Unreleased] — register-only-agent
+
+### Changed
+
+- `POST /api/auth/register` — removed `role` from the request payload; all new registrations are now assigned the `agent` role automatically
+- `UserCoreData` and `UserRepositoryData` — `role` defaults to `'agent'`; no longer required to be supplied by callers of the register flow
+
+---
+
 ## [Unreleased] — backend-login
 
 Authentication and user management foundation for the Backend API.
@@ -8,7 +17,7 @@ Authentication and user management foundation for the Backend API.
 
 #### Authentication (`/api/auth`)
 
-- `POST /api/auth/register` — register a new user with `name`, `email`, `password`, and `role` (`admin` | `agent`)
+- `POST /api/auth/register` — register a new user with `name`, `email`, and `password`; role is automatically set to `agent`
 - `POST /api/auth/login` — authenticate and receive a Sanctum bearer token; blocked if account is inactive
 - `DELETE /api/auth/logout` — revoke the current access token (requires bearer token)
 
