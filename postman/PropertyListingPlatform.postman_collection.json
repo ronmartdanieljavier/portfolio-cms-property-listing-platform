@@ -326,6 +326,113 @@
       "description": "Property listing endpoints. All require a Sanctum bearer token.",
       "item": [
         {
+          "name": "List Properties",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/properties?page=1",
+              "host": ["{{base_url}}"],
+              "path": ["properties"],
+              "query": [
+                {
+                  "key": "page",
+                  "value": "1",
+                  "description": "Page number for pagination."
+                }
+              ]
+            },
+            "description": "Return a paginated list of all property listings (15 per page, ordered by newest first). Requires authentication."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"agentId\": 1,\n      \"title\": \"Beautiful House in Sydney\",\n      \"description\": \"A stunning property with ocean views.\",\n      \"price\": \"750000.00\",\n      \"propertyType\": \"house\",\n      \"status\": \"for_sale\",\n      \"bedrooms\": 3,\n      \"bathrooms\": 2,\n      \"floorArea\": \"180.50\",\n      \"lotArea\": \"350.00\",\n      \"floors\": 2,\n      \"address\": \"12 Harbour St\",\n      \"city\": \"Sydney\",\n      \"province\": \"New South Wales\",\n      \"country\": \"AU\",\n      \"zipCode\": \"2000\",\n      \"latitude\": \"-33.8688000\",\n      \"longitude\": \"151.2093000\",\n      \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"id\": 1\n    }\n  ],\n  \"first_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"next_page_url\": null,\n  \"path\": \"http://api.localhost/api/properties\",\n  \"per_page\": 15,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Get Property",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/properties/:id",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "The ID of the property."
+                }
+              ]
+            },
+            "description": "Return a single property listing by ID. Requires authentication."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
           "name": "Create Property",
           "request": {
             "method": "POST",
@@ -367,7 +474,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\"\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1\n}"
             },
             {
               "name": "401 Unauthorized",
@@ -386,6 +493,162 @@
                 { "key": "Content-Type", "value": "application/json" }
               ],
               "body": "{\n  \"message\": \"The propertyType field is required.\",\n  \"errors\": {\n    \"title\": [\"The title field is required.\"],\n    \"price\": [\"The price field is required.\"],\n    \"propertyType\": [\"The propertyType field is required.\"],\n    \"address\": [\"The address field is required.\"],\n    \"city\": [\"The city field is required.\"],\n    \"province\": [\"The province field is required.\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Update Property",
+          "request": {
+            "method": "PATCH",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Updated House in Sydney\",\n  \"status\": \"sold\",\n  \"price\": \"800000.00\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/properties/:id",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "The ID of the property to update."
+                }
+              ]
+            },
+            "description": "Partially update a property listing. Only the authenticated agent who owns the property may update it. All fields are optional. `propertyType` must be one of: `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` must be one of: `for_sale`, `for_rent`, `sold`, `rented`."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Updated House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"800000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"sold\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T01:00:00.000000Z\",\n  \"id\": 1\n}"
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"You do not have permission to update this property.\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            },
+            {
+              "name": "422 Unprocessable Entity",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"The selected status is invalid.\",\n  \"errors\": {\n    \"status\": [\"The selected status is invalid.\"]\n  }\n}"
+            }
+          ]
+        },
+        {
+          "name": "Delete Property",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/properties/:id",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":id"],
+              "variable": [
+                {
+                  "key": "id",
+                  "value": "1",
+                  "description": "The ID of the property to delete."
+                }
+              ]
+            },
+            "description": "Soft-delete a property listing. Only the authenticated agent who owns the property may delete it. Returns `204 No Content` on success."
+          },
+          "response": [
+            {
+              "name": "204 No Content",
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": ""
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"You do not have permission to delete this property.\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
             }
           ]
         }
