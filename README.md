@@ -4,13 +4,13 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
 
 ## Tech Stack
 
-| Layer         | Technology        |
-| ------------- | ----------------- |
-| Backend       | Laravel (PHP 8.5) |
-| Frontend      | React 19 + Vite   |
-| Database      | PostgreSQL 16     |
-| Cache / Queue | Redis 7           |
-| Web server    | Nginx             |
+| Layer         | Technology                             |
+| ------------- | -------------------------------------- |
+| Backend       | Laravel (PHP 8.5)                      |
+| Frontend      | React 19 + TypeScript + Tailwind CSS 4 |
+| Database      | PostgreSQL 16                          |
+| Cache / Queue | Redis 7                                |
+| Web server    | Nginx                                  |
 
 ## API Endpoints
 
@@ -72,10 +72,11 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
    cd portfolio-cms-property-listing-platform
    ```
 
-2. Copy the backend environment file:
+2. Copy environment files:
 
    ```bash
    cp backend/.env.example backend/.env
+   cp frontend-react/.env.example frontend-react/.env
    ```
 
 3. Start all services:
@@ -120,4 +121,34 @@ docker compose down
 
 # Stop and remove volumes (wipes the database)
 docker compose down -v
+```
+
+### Frontend Development
+
+```bash
+cd frontend-react
+
+# Install dependencies
+npm install
+
+# Start the dev server (http://localhost:5173)
+npm run dev
+
+# Type check
+npx tsc -b --noEmit
+
+# Lint
+npm run lint
+
+# Run unit tests (single pass)
+npm test
+
+# Run tests in watch mode
+npm run test:watch
+
+# Run tests with coverage report
+npm run test:coverage
+
+# Build for production
+npm run build
 ```
