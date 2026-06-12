@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\BelongsToMany;
+use Illuminate\Database\Eloquent\Relations\Pivot;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable([
@@ -42,6 +43,9 @@ class PropertyModel extends Model
         return PropertyModelFactory::new();
     }
 
+    /**
+     * @return BelongsToMany<AmenityModel, $this, Pivot>
+     */
     public function amenities(): BelongsToMany
     {
         return $this->belongsToMany(AmenityModel::class, 'amenity_property', 'property_id', 'amenity_id');
