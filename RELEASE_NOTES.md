@@ -1,5 +1,46 @@
 # Release Notes
 
+## [Unreleased] — backend-property-amenities
+
+### Added
+
+#### Property Amenity Endpoints
+
+- `POST /api/properties/{id}/amenities` — attach one or more amenities to a property without removing existing ones; accepts `amenityIds` array; returns `201` with the full updated amenity list; only the owning agent may call this
+- `PUT /api/properties/{id}/amenities` / `PATCH /api/properties/{id}/amenities` — sync all amenities on a property, replacing existing ones; pass an empty array to clear all; returns `200` with the resulting amenity list
+- `DELETE /api/properties/{id}/amenities/{amenityId}` — detach a single amenity from a property; returns `204 No Content`; returns `404` if the amenity is not attached
+
+#### Property Listing Response Updated
+
+- `GET /api/properties` and `GET /api/properties/{id}` — responses now include an `amenities` array (each item: `id`, `name`, `createdAt`, `updatedAt`); empty array when no amenities are attached
+- All other property write endpoints (`POST`, `PUT`/`PATCH`) also return `amenities` in the response
+
+#### Property Module (`app/Modules/Properties/`)
+
+- `AmenityModel` — Eloquent model for the `amenities` table with `HasFactory`
+- `AmenityModelFactory` — factory generating unique amenity names for tests
+- `PropertyModel` — added `amenities()` `BelongsToMany` relationship via `amenity_property` pivot
+- `PropertyAmenityRepository` — `attach`, `sync`, `detach` methods operating on the pivot table
+- `PropertyAmenityService` — thin service layer delegating to `PropertyAmenityRepository`
+- `PropertyAmenityController` — `store`, `update`, `destroy` actions with ownership enforcement
+- `AddPropertyAmenitiesRequest` — validates `amenityIds` as a non-empty array of existing IDs
+- `SyncPropertyAmenitiesRequest` — validates `amenityIds` as a present array (empty allowed) of existing IDs
+- `AmenityRepositoryData` — Spatie Data object for amenity responses with `MapInputName` snake_case mapping
+- `PropertyRepositoryData` — added `amenities` `DataCollection` field
+- `PropertyRepository` — `findAll`, `findById`, `create`, and `update` now eager-load `amenities` and include them in the returned data
+- `api_property.php` — registered three new amenity routes under `/{propertyId}/amenities`
+
+#### Tests
+
+- `PropertyAmenityApiTest` — 17 new feature tests covering: attach (including no-duplicate guard), sync (including empty-array clear), detach, ownership enforcement (403), 404 for non-existent property and un-attached amenity, authentication requirements, and validation errors
+
+#### Postman
+
+- Postman collection updated — added `Property Amenities` folder with `Add Amenities to Property`, `Sync Amenities on Property`, and `Remove Amenity from Property` requests with example success and error responses
+- `List Properties`, `Get Property`, `Create Property`, and `Update Property` example responses updated to include the `amenities` field
+
+---
+
 ## [Unreleased] — backend-manage-property
 
 ### Added
