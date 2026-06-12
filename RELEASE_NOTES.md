@@ -1,5 +1,43 @@
 # Release Notes
 
+## [Unreleased] — backend-create-property
+
+### Added
+
+#### Property Listings (`POST /api/properties`)
+
+- `POST /api/properties` — create a new property listing; requires a Sanctum bearer token; `agent_id` is resolved automatically from the authenticated user and is not accepted from the request body
+
+#### Property Module Architecture (`app/Modules/Properties/`)
+
+Follows the same module structure as `app/Modules/Users/`:
+
+- `PropertyTypeEnum` — backed string enum: `House`, `Apartment`, `Condo`, `Townhouse`, `Land`, `Commercial`
+- `PropertyStatusEnum` — backed string enum: `ForSale`, `ForRent`, `Sold`, `Rented`; defaults to `ForSale` on creation
+- `PropertyModel` — Eloquent model with `SoftDeletes`; all listing columns are fillable via PHP attribute
+- `PropertyRepository` — DB interaction layer; exposes a `create` method returning `PropertyRepositoryData`
+- `PropertyService` — thin service layer delegating to `PropertyRepository`
+- `CreatePropertyRequest` — validates the camelCase payload (`propertyType`, `floorArea`, `lotArea`, `zipCode`, etc.)
+- `PropertyController` — single `store` action wired to the service
+- `api_property.php` — module route file auto-loaded by `routes/api.php`; all property routes are grouped under `auth:sanctum`
+
+#### Data Transfer Objects
+
+- `PropertyCoreData` — controller-layer DTO; accepts camelCase keys from `$request->validated()` plus the resolved `agent_id`
+- `PropertyRepositoryData` — repository-layer DTO with `MapInputName` attributes for snake_case DB column mapping and a `toDBCreate()` helper
+
+#### Factory & Tests
+
+- `PropertyModelFactory` — factory with realistic fake data for all property fields; uses `UserModel::factory()` for `agent_id`
+- `PropertyApiTest` — 5 feature tests covering: successful creation, default `for_sale` status, unauthenticated rejection, missing required fields, and invalid `propertyType` enum value
+- `phpunit.xml` — added `app/Modules/Properties/Tests/Feature` to the Feature test suite
+
+#### Postman
+
+- Postman collection updated — added a `Properties` folder with the `Create Property` request, example success/error responses, and inline field documentation
+
+---
+
 ## [Unreleased] — backend-migratation-property
 
 ### Added

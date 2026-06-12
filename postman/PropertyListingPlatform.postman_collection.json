@@ -320,6 +320,76 @@
           ]
         }
       ]
+    },
+    {
+      "name": "Properties",
+      "description": "Property listing endpoints. All require a Sanctum bearer token.",
+      "item": [
+        {
+          "name": "Create Property",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688\",\n  \"longitude\": \"151.2093\"\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/properties",
+              "host": ["{{base_url}}"],
+              "path": ["properties"]
+            },
+            "description": "Create a new property listing. The `agent_id` is resolved automatically from the authenticated user. `propertyType` must be one of: `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` defaults to `for_sale` and must be one of: `for_sale`, `for_rent`, `sold`, `rented`."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            },
+            {
+              "name": "422 Unprocessable Entity",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"The propertyType field is required.\",\n  \"errors\": {\n    \"title\": [\"The title field is required.\"],\n    \"price\": [\"The price field is required.\"],\n    \"propertyType\": [\"The propertyType field is required.\"],\n    \"address\": [\"The address field is required.\"],\n    \"city\": [\"The city field is required.\"],\n    \"province\": [\"The province field is required.\"]\n  }\n}"
+            }
+          ]
+        }
+      ]
     }
   ]
 }
