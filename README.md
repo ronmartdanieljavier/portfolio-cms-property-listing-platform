@@ -1,6 +1,6 @@
 # Portfolio CMS — Property Listing Platform
 
-Full-stack property listing and CMS platform built with Laravel, React, PostgreSQL, and Redis — featuring multi-role admin, RESTful API, enquiry management, and CMS-driven content pages.
+Full-stack property listing and CMS platform built with Laravel, React, PostgreSQL, and Redis — featuring multi-role admin, RESTful API, property listings with images and amenities, enquiry management, and CMS-driven content pages.
 
 ## Tech Stack
 
