@@ -12,6 +12,31 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
 | Cache / Queue | Redis 7           |
 | Web server    | Nginx             |
 
+## API Endpoints
+
+### Auth
+
+| Method   | Endpoint             | Description                             | Auth    |
+| -------- | -------------------- | --------------------------------------- | ------- |
+| `POST`   | `/api/auth/register` | Register a new agent account            | —       |
+| `POST`   | `/api/auth/login`    | Authenticate and receive a bearer token | —       |
+| `DELETE` | `/api/auth/logout`   | Revoke the current access token         | Sanctum |
+
+### Admin
+
+| Method   | Endpoint                                | Description                             | Auth  |
+| -------- | --------------------------------------- | --------------------------------------- | ----- |
+| `DELETE` | `/api/admin/users/{user}/force-logout`  | Revoke all tokens for a user            | Admin |
+| `PATCH`  | `/api/admin/users/{user}/toggle-status` | Activate or deactivate an agent account | Admin |
+
+### Properties
+
+| Method | Endpoint          | Description                   | Auth    |
+| ------ | ----------------- | ----------------------------- | ------- |
+| `POST` | `/api/properties` | Create a new property listing | Sanctum |
+
+> Request body uses camelCase keys: `propertyType`, `floorArea`, `lotArea`, `zipCode`. `propertyType` must be one of `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` defaults to `for_sale`.
+
 ## Local Development
 
 ### Prerequisites
