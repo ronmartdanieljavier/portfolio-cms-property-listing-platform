@@ -1,5 +1,17 @@
 # Release Notes
 
+## [Unreleased] — backend-migratation-property
+
+### Added
+
+- Migration `2026_06_12_152545` — creates four tables for property data:
+  - `properties` — core listing details: title, description, price, property type, status, physical specs (bedrooms, bathrooms, floor area, lot area, floors), full address with city, province, country (default `AU`), zip code, and GPS coordinates; includes `agent_id` FK to `users` with cascade delete and soft deletes
+  - `property_images` — one-to-many images per property with `is_primary` flag and `sort_order`
+  - `amenities` — lookup table for amenity names (e.g. pool, gym)
+  - `amenity_property` — many-to-many pivot linking properties to amenities
+
+---
+
 ## [Unreleased] — register-only-agent
 
 ### Changed
