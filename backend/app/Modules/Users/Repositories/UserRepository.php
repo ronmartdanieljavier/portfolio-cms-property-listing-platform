@@ -20,8 +20,7 @@ class UserRepository
 
     /**
      * User registration method that creates a new user and returns the registered user data along with an API token.
-     * @param UserRepositoryData $data data required for registering a new user, including name, email, password, and role
-     * @return UserRegisteredCoreData
+     * @param  UserRepositoryData  $data  data required for registering a new user, including name, email, password, and role
      */
     public function register(UserRepositoryData $data): UserRegisteredCoreData
     {
@@ -37,9 +36,8 @@ class UserRepository
 
     /**
      * User authentication method that verifies the provided email and password, checks if the account is active, and returns the authenticated user data along with an API token.
-     * @param string $email email of the user trying to authenticate
-     * @param string $password password of the user trying to authenticate
-     * @return UserLoginCoreData
+     * @param  string  $email  email of the user trying to authenticate
+     * @param  string  $password  password of the user trying to authenticate
      */
     public function authenticateCredentials(string $email, string $password): UserLoginCoreData
     {

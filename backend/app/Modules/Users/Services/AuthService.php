@@ -17,8 +17,7 @@ class AuthService
 
     /**
      * User registration service
-     * @param UserCoreData $data data required for registering a new user, including name, email, password, and role
-     * @return UserRegisteredCoreData
+     * @param  UserCoreData  $data  data required for registering a new user, including name, email, password, and role
      */
     public function register(UserCoreData $data): UserRegisteredCoreData
     {
@@ -27,9 +26,8 @@ class AuthService
     
     /**
      * User login service
-     * @param string $email email of the user trying to authenticate
-     * @param string $password password of the user trying to authenticate
-     * @return UserLoginCoreData
+     * @param  string  $email  email of the user trying to authenticate
+     * @param  string  $password  password of the user trying to authenticate
      */
     public function login(string $email, string $password): UserLoginCoreData
     {
@@ -38,8 +36,7 @@ class AuthService
 
     /**
      * User logout service
-     * @param UserModel $user the user to logout
-     * @return void
+     * @param  UserModel  $user  the user to logout
      */
     public function logout(UserModel $user): void
     {
