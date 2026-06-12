@@ -1,5 +1,39 @@
 # Release Notes
 
+## [Unreleased] — backend-manage-property
+
+### Added
+
+#### Property Management Endpoints
+
+- `GET /api/properties` — list all property listings paginated (15 per page, newest first); requires Sanctum bearer token
+- `GET /api/properties/{id}` — retrieve a single property by ID; returns `404` if not found
+- `PUT /api/properties/{id}` / `PATCH /api/properties/{id}` — partially update a property listing; only the owning agent may update; returns `403` for non-owners and `404` if not found
+- `DELETE /api/properties/{id}` — soft-delete a property listing; only the owning agent may delete; returns `204 No Content` on success, `403` for non-owners, and `404` if not found
+
+#### Property Module Updates (`app/Modules/Properties/`)
+
+- `UpdatePropertyRequest` — validates partial update payload; all fields are `sometimes` so the body can contain any subset of property fields
+- `PropertyRepository` — added `findAll` (paginated), `findById`, `update`, and `delete` methods
+- `PropertyService` — added `list`, `show`, `update`, and `delete` methods delegating to the repository
+- `PropertyController` — added `index`, `show`, `update`, and `destroy` actions with ownership enforcement on write operations
+- `api_property.php` — registered all five CRUD routes
+
+#### Data Transfer Objects
+
+- `PropertyCoreData` — all fields are now nullable to support partial update payloads alongside full create payloads
+- `PropertyRepositoryData` — all fields are now nullable; added `id` field; added `toDBUpdate()` helper that returns only non-null fields for partial DB updates; `toDBCreate()` retains `for_sale` / `AU` defaults
+
+#### Tests
+
+- `PropertyApiTest` — added 14 new feature tests covering: paginated listing, single property retrieval, partial updates, ownership enforcement (403), and soft-delete with database assertion; total test count raised from 5 to 19
+
+#### Postman
+
+- Postman collection updated — added `List Properties`, `Get Property`, `Update Property`, and `Delete Property` requests to the Properties folder with example success and error responses
+
+---
+
 ## [Unreleased] — backend-create-property
 
 ### Added
