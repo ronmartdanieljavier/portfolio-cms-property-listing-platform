@@ -26,8 +26,19 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
 
 | Method   | Endpoint                                | Description                             | Auth  |
 | -------- | --------------------------------------- | --------------------------------------- | ----- |
+| `GET`    | `/api/admin/users`                      | List all users                          | Admin |
+| `POST`   | `/api/admin/users`                      | Register a new user (any role)          | Admin |
+| `PATCH`  | `/api/admin/users/{user}`               | Update a non-admin user's details       | Admin |
+| `DELETE` | `/api/admin/users/{user}`               | Delete a non-admin user                 | Admin |
 | `DELETE` | `/api/admin/users/{user}/force-logout`  | Revoke all tokens for a user            | Admin |
 | `PATCH`  | `/api/admin/users/{user}/toggle-status` | Activate or deactivate an agent account | Admin |
+
+### Profile
+
+| Method  | Endpoint       | Description                             | Auth    |
+| ------- | -------------- | --------------------------------------- | ------- |
+| `GET`   | `/api/profile` | Get the authenticated user's profile    | Sanctum |
+| `PATCH` | `/api/profile` | Update own name, email, and/or password | Sanctum |
 
 ### Properties
 

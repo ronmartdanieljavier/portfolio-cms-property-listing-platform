@@ -6,12 +6,22 @@ import {
   deleteProperty,
 } from "../../services/propertiesApi";
 import type { Property, CreatePropertyForm } from "../../types/property";
+import type { User } from "../../types/auth";
 import PropertyForm from "./PropertyForm";
 import AmenityManager from "./AmenityManager";
 
 type Modal = { kind: "create" } | { kind: "edit"; property: Property } | null;
 
+function getUser(): User | null {
+  try {
+    return JSON.parse(localStorage.getItem("user") ?? "null");
+  } catch {
+    return null;
+  }
+}
+
 export default function Properties() {
+  const isAdmin = getUser()?.role === "admin";
   const [properties, setProperties] = useState<Property[]>([]);
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState("");
@@ -87,12 +97,14 @@ export default function Properties() {
             {properties.length} listing{properties.length !== 1 ? "s" : ""}
           </p>
         </div>
-        <button
-          onClick={() => setModal({ kind: "create" })}
-          className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
-        >
-          + Add property
-        </button>
+        {!isAdmin && (
+          <button
+            onClick={() => setModal({ kind: "create" })}
+            className="rounded-lg bg-indigo-600 px-4 py-2 text-sm font-medium text-white hover:bg-indigo-700 transition"
+          >
+            + Add property
+          </button>
+        )}
       </div>
 
       {toast && (
@@ -129,12 +141,14 @@ export default function Properties() {
       ) : properties.length === 0 ? (
         <div className="rounded-xl border border-dashed border-gray-300 p-12 text-center">
           <p className="text-sm text-gray-500">No properties yet.</p>
-          <button
-            onClick={() => setModal({ kind: "create" })}
-            className="mt-3 text-sm text-indigo-600 hover:underline"
-          >
-            Add your first property
-          </button>
+          {!isAdmin && (
+            <button
+              onClick={() => setModal({ kind: "create" })}
+              className="mt-3 text-sm text-indigo-600 hover:underline"
+            >
+              Add your first property
+            </button>
+          )}
         </div>
       ) : (
         <div className="space-y-3">
@@ -176,25 +190,31 @@ export default function Properties() {
                 </div>
 
                 <div className="flex items-center gap-2 shrink-0">
-                  <button
-                    onClick={() => toggleExpanded(property.id)}
-                    className="rounded border border-gray-200 px-2.5 py-1 text-xs text-gray-600 hover:bg-gray-50 transition"
-                  >
-                    {expanded.has(property.id) ? "Hide amenities" : "Amenities"}
-                  </button>
-                  <button
-                    onClick={() => setModal({ kind: "edit", property })}
-                    className="rounded border border-gray-300 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 transition"
-                  >
-                    Edit
-                  </button>
-                  <button
-                    disabled={deleting === property.id}
-                    onClick={() => handleDelete(property.id)}
-                    className="rounded border border-red-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 transition"
-                  >
-                    Delete
-                  </button>
+                  {!isAdmin && (
+                    <>
+                      <button
+                        onClick={() => toggleExpanded(property.id)}
+                        className="rounded border border-gray-200 px-2.5 py-1 text-xs text-gray-600 hover:bg-gray-50 transition"
+                      >
+                        {expanded.has(property.id)
+                          ? "Hide amenities"
+                          : "Amenities"}
+                      </button>
+                      <button
+                        onClick={() => setModal({ kind: "edit", property })}
+                        className="rounded border border-gray-300 px-2.5 py-1 text-xs font-medium text-gray-700 hover:bg-gray-50 transition"
+                      >
+                        Edit
+                      </button>
+                      <button
+                        disabled={deleting === property.id}
+                        onClick={() => handleDelete(property.id)}
+                        className="rounded border border-red-200 px-2.5 py-1 text-xs font-medium text-red-600 hover:bg-red-50 disabled:opacity-50 transition"
+                      >
+                        Delete
+                      </button>
+                    </>
+                  )}
                 </div>
               </div>
 

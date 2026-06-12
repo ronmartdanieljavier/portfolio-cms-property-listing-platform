@@ -10,9 +10,14 @@ import type { Amenity, Property } from "../../types/property";
 interface Props {
   property: Property;
   onUpdated: (updated: Property) => void;
+  readOnly?: boolean;
 }
 
-export default function AmenityManager({ property, onUpdated }: Props) {
+export default function AmenityManager({
+  property,
+  onUpdated,
+  readOnly = false,
+}: Props) {
   const [allAmenities, setAllAmenities] = useState<Amenity[]>([]);
   const [processing, setProcessing] = useState(false);
   const [toast, setToast] = useState("");
@@ -98,20 +103,22 @@ export default function AmenityManager({ property, onUpdated }: Props) {
               className="inline-flex items-center gap-1 rounded-full bg-gray-100 px-2.5 py-0.5 text-xs text-gray-700"
             >
               {amenity.name}
-              <button
-                disabled={processing}
-                onClick={() => handleDelete(amenity.id)}
-                className="text-gray-400 hover:text-red-500 disabled:opacity-50 leading-none"
-                title="Remove"
-              >
-                ×
-              </button>
+              {!readOnly && (
+                <button
+                  disabled={processing}
+                  onClick={() => handleDelete(amenity.id)}
+                  className="text-gray-400 hover:text-red-500 disabled:opacity-50 leading-none"
+                  title="Remove"
+                >
+                  ×
+                </button>
+              )}
             </span>
           ))
         )}
       </div>
 
-      {availableToAdd.length > 0 && (
+      {!readOnly && availableToAdd.length > 0 && (
         <div className="flex gap-2">
           <select
             value={selectedId}

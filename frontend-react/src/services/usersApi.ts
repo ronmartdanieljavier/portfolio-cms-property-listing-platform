@@ -23,3 +23,41 @@ export async function forceLogoutUser(
   );
   return data;
 }
+
+export async function deleteUser(userId: number): Promise<{ message: string }> {
+  const { data } = await api.delete<{ message: string }>(
+    `/admin/users/${userId}`,
+  );
+  return data;
+}
+
+export async function updateUser(
+  userId: number,
+  payload: {
+    name?: string;
+    email?: string;
+    password?: string;
+    password_confirmation?: string;
+    role?: string;
+  },
+): Promise<{ message: string; user: User }> {
+  const { data } = await api.patch<{ message: string; user: User }>(
+    `/admin/users/${userId}`,
+    payload,
+  );
+  return data;
+}
+
+export async function registerUser(payload: {
+  name: string;
+  email: string;
+  password: string;
+  password_confirmation: string;
+  role?: string;
+}): Promise<{ message: string; user: User }> {
+  const { data } = await api.post<{ message: string; user: User }>(
+    "/admin/users",
+    payload,
+  );
+  return data;
+}

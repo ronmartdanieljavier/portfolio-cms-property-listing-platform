@@ -6,6 +6,7 @@ import AuthLayout from "./layouts/AuthLayout";
 import AdminRoute from "./components/AdminRoute";
 import AgentUsers from "./pages/AgentUsers/AgentUsers";
 import Properties from "./pages/Properties/Properties";
+import Profile from "./pages/Profile/Profile";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("token");
@@ -36,6 +37,7 @@ export default function App() {
             }
           />
           <Route path="/properties" element={<Properties />} />
+          <Route path="/profile" element={<Profile />} />
         </Route>
       </Routes>
     </BrowserRouter>
