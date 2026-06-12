@@ -12,9 +12,12 @@ A RESTful API backend powering the Portfolio CMS Property Listing Platform, buil
 - [Getting Started](#getting-started)
 - [Environment Configuration](#environment-configuration)
 - [Database Setup](#database-setup)
+    - [Seeding the Default Admin Account](#seeding-the-default-admin-account)
+    - [Troubleshooting: Database Connection Error](#troubleshooting-database-connection-error)
 - [Running the Application](#running-the-application)
 - [API Structure](#api-structure)
 - [Authentication](#authentication)
+- [User Roles](#user-roles)
 - [Testing](#testing)
 - [AWS Deployment](#aws-deployment)
 - [Project Structure](#project-structure)
@@ -31,7 +34,7 @@ This is the **backend service** of the Portfolio CMS Property Listing Platform. 
 - CMS content management for property details and metadata
 - Search, filtering, and pagination of property listings
 
-The frontend (Vue.js) lives in the `/frontend` directory at the root of this monorepo and communicates with this API exclusively via HTTP.
+The frontend (React + Vite) lives in the `/frontend-react` directory at the root of this monorepo and communicates with this API exclusively via HTTP.
 
 ---
 
@@ -40,7 +43,7 @@ The frontend (Vue.js) lives in the `/frontend` directory at the root of this mon
 | Layer           | Technology                    |
 | --------------- | ----------------------------- |
 | Framework       | Laravel 13                    |
-| Language        | PHP 8.3+                      |
+| Language        | PHP 8.5                       |
 | Database        | MySQL 8 / PostgreSQL 16       |
 | Cache & Queues  | Redis                         |
 | Authentication  | Laravel Sanctum (token-based) |
@@ -55,7 +58,7 @@ The frontend (Vue.js) lives in the `/frontend` directory at the root of this mon
 
 Ensure you have the following installed locally:
 
-- PHP `>= 8.3`
+- PHP `>= 8.5`
 - Composer `>= 2.x`
 - MySQL `>= 8.0` or PostgreSQL `>= 16`
 - Redis `>= 7.x`
@@ -145,6 +148,38 @@ php artisan migrate --seed
 php artisan migrate:fresh --seed
 ```
 
+### Seeding the Default Admin Account
+
+Add the following to your `.env` file before running the seeder:
+
+```env
+ADMIN_NAME="Your Name"
+ADMIN_EMAIL=you@yourdomain.com
+ADMIN_PASSWORD=a-strong-secret-password
+```
+
+Then run:
+
+```bash
+php artisan db:seed --class=AdminUserSeeder
+```
+
+The seeder uses `updateOrCreate`, so it is safe to re-run — it will update the existing admin rather than create a duplicate. If `ADMIN_EMAIL` or `ADMIN_PASSWORD` is not set, the seeder will skip with a warning.
+
+### Troubleshooting: Database Connection Error
+
+If you see `could not translate host name "postgres"` when running migrations or seeders, your `.env` `DB_HOST` may be set to `postgres` (a Docker service name) instead of a reachable host.
+
+**Running locally (no Docker):** set `DB_HOST=127.0.0.1` in your `.env`.
+
+**Running with Docker:** the `postgres` hostname is correct, but the container must be running first:
+
+```bash
+docker compose up -d
+```
+
+Then retry the command.
+
 ---
 
 ## Running the Application
@@ -160,27 +195,41 @@ php artisan queue:work
 php artisan schedule:work
 ```
 
-The API will be available at: `http://localhost:8000/api/v1`
+The API will be available at: `http://localhost:8000/api`
 
 ---
 
 ## API Structure
 
-All API routes are versioned and prefixed with `/api/v1`.
+All API routes are prefixed with `/api` and defined per module under `app/Modules/*/Routes/`.
 
-| Method   | Endpoint                        | Description                     |
-| -------- | ------------------------------- | ------------------------------- |
-| `GET`    | `/api/v1/properties`            | List all properties (paginated) |
-| `GET`    | `/api/v1/properties/{id}`       | Get a single property           |
-| `POST`   | `/api/v1/properties`            | Create a new property           |
-| `PUT`    | `/api/v1/properties/{id}`       | Update a property               |
-| `DELETE` | `/api/v1/properties/{id}`       | Delete a property               |
-| `POST`   | `/api/v1/properties/{id}/media` | Upload media for a property     |
-| `GET`    | `/api/v1/auth/user`             | Get authenticated user          |
-| `POST`   | `/api/v1/auth/login`            | Login                           |
-| `POST`   | `/api/v1/auth/logout`           | Logout                          |
+### Auth
 
-> Full API documentation is available via Postman collection or through `/api/documentation` when `APP_ENV=local`.
+| Method   | Endpoint             | Auth Required | Description                            |
+| -------- | -------------------- | ------------- | -------------------------------------- |
+| `POST`   | `/api/auth/register` | No            | Register a new admin or agent user     |
+| `POST`   | `/api/auth/login`    | No            | Login (blocked if account is inactive) |
+| `DELETE` | `/api/auth/logout`   | Bearer token  | Revoke the current access token        |
+
+### Admin
+
+| Method   | Endpoint                                | Auth Required | Description                     |
+| -------- | --------------------------------------- | ------------- | ------------------------------- |
+| `DELETE` | `/api/admin/users/{user}/force-logout`  | Admin only    | Revoke all tokens for a user    |
+| `PATCH`  | `/api/admin/users/{user}/toggle-status` | Admin only    | Activate or deactivate an agent |
+
+### Properties _(coming soon)_
+
+| Method   | Endpoint                     | Description                     |
+| -------- | ---------------------------- | ------------------------------- |
+| `GET`    | `/api/properties`            | List all properties (paginated) |
+| `GET`    | `/api/properties/{id}`       | Get a single property           |
+| `POST`   | `/api/properties`            | Create a new property           |
+| `PUT`    | `/api/properties/{id}`       | Update a property               |
+| `DELETE` | `/api/properties/{id}`       | Delete a property               |
+| `POST`   | `/api/properties/{id}/media` | Upload media for a property     |
+
+> A Postman collection is available at `/postman/PropertyListingPlatform.postman_collection.json`.
 
 ---
 
@@ -197,6 +246,23 @@ Authorization: Bearer <your-token>
 
 ---
 
+## User Roles
+
+There are two user roles: **admin** and **agent**. The `role` field is required on registration.
+
+| Role    | Capabilities                                                                 |
+| ------- | ---------------------------------------------------------------------------- |
+| `admin` | Full access — can force-logout users and toggle agent account status         |
+| `agent` | Standard access — can log in and out; account can be deactivated by an admin |
+
+**Account status rules:**
+
+- Users can only log in if their account `is_active` is `true`
+- Only agent accounts can be deactivated/reactivated — admin accounts cannot have their status changed
+- Force logout revokes all active tokens across all devices
+
+---
+
 ## Testing
 
 ```bash
@@ -210,7 +276,7 @@ php artisan test --coverage
 php artisan test --filter=PropertyListingTest
 ```
 
-Tests are located in the `/tests` directory, organised into `Unit` and `Feature` suites.
+Tests are located in the `/tests` directory and within each module under `app/Modules/*/Tests/`, organised into `Unit` and `Feature` suites.
 
 ---
 
@@ -219,21 +285,31 @@ Tests are located in the `/tests` directory, organised into `Unit` and `Feature`
 ```
 backend/
 ├── app/
+│   ├── Casts/                     # Custom Spatie Laravel Data casts
 │   ├── Http/
-│   │   ├── Controllers/Api/V1/   # Versioned API controllers
-│   │   ├── Middleware/            # Auth, throttle, CORS
-│   │   └── Requests/              # Form request validation
-│   ├── Models/                    # Eloquent models
-│   ├── Services/                  # Business logic layer
-│   └── Repositories/             # Data access layer
+│   │   └── Controllers/           # Base controller
+│   └── Modules/
+│       └── Users/
+│           ├── Enums/             # UserRoleEnum (admin, agent)
+│           ├── Http/
+│           │   ├── Controllers/   # Auth and Admin controllers
+│           │   ├── Middleware/    # EnsureUserIsAdmin
+│           │   └── Requests/      # Form request validation
+│           ├── Models/            # UserModel (Eloquent)
+│           ├── Repositories/      # UserRepository (data access)
+│           ├── Routes/            # Module-scoped API routes
+│           ├── Services/          # AuthService (business logic)
+│           ├── Tests/             # Feature tests (Pest)
+│           └── Transformations/   # Spatie Data objects (DTOs)
 ├── database/
+│   ├── factories/
 │   ├── migrations/
-│   └── seeders/
+│   └── seeders/                   # AdminUserSeeder
 ├── routes/
-│   └── api.php                    # API route definitions
+│   └── api.php                    # Auto-loads module route files
 ├── tests/
 │   ├── Feature/
-│   └── Unit/
+│   └── Unit/                      # Cast unit tests
 └── .env.example
 ```
 
@@ -241,8 +317,9 @@ backend/
 
 ## Related
 
-- **Frontend (Vue.js):** [`/frontend`](../frontend)
+- **Frontend (React):** [`/frontend-react`](../frontend-react)
 - **Root README:** [`/README.md`](../README.md)
+- **Postman Collection:** [`/postman`](../postman)
 
 ---
 
