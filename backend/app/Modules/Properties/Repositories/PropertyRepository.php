@@ -2,7 +2,9 @@
 
 namespace App\Modules\Properties\Repositories;
 
+use App\Modules\Properties\Models\AmenityModel;
 use App\Modules\Properties\Models\PropertyModel;
+use App\Modules\Properties\Transformations\Repositories\AmenityRepositoryData;
 use App\Modules\Properties\Transformations\Repositories\PropertyRepositoryData;
 use Illuminate\Pagination\LengthAwarePaginator;
 
@@ -20,9 +22,18 @@ class PropertyRepository
     public function findAll(int $perPage = 15): LengthAwarePaginator
     {
         return $this->propertyModel
+            ->with('amenities')
             ->latest()
             ->paginate($perPage)
-            ->through(fn (PropertyModel $property) => PropertyRepositoryData::from($property->toArray()));
+            ->through(fn (PropertyModel $property) => $this->toRepositoryData($property));
+    }
+
+    /**
+     * Find the raw Eloquent model by ID or return null.
+     */
+    public function findModel(int $id): ?PropertyModel
+    {
+        return $this->propertyModel->find($id);
     }
 
     /**
@@ -30,13 +41,13 @@ class PropertyRepository
      */
     public function findById(int $id): ?PropertyRepositoryData
     {
-        $property = $this->propertyModel->find($id);
+        $property = $this->propertyModel->with('amenities')->find($id);
 
         if ($property === null) {
             return null;
         }
 
-        return PropertyRepositoryData::from($property->toArray());
+        return $this->toRepositoryData($property);
     }
 
     /**
@@ -48,7 +59,7 @@ class PropertyRepository
     {
         $property = $this->propertyModel->create($data->toDBCreate());
 
-        return PropertyRepositoryData::from($property->toArray());
+        return $this->toRepositoryData($property->load('amenities'));
     }
 
     /**
@@ -66,7 +77,17 @@ class PropertyRepository
 
         $property->update($data->toDBUpdate());
 
-        return PropertyRepositoryData::from($property->fresh()->toArray());
+        return $this->toRepositoryData($property->fresh()->load('amenities'));
+    }
+
+    private function toRepositoryData(PropertyModel $property): PropertyRepositoryData
+    {
+        $amenities = $property->amenities
+            ->map(fn (AmenityModel $amenity) => AmenityRepositoryData::from($amenity->toArray()))
+            ->values()
+            ->toArray();
+
+        return PropertyRepositoryData::from([...$property->toArray(), 'amenities' => $amenities]);
     }
 
     /**

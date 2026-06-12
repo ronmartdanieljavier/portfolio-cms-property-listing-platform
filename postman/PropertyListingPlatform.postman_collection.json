@@ -322,6 +322,54 @@
       ]
     },
     {
+      "name": "Amenities",
+      "description": "Amenity lookup endpoints. All require a Sanctum bearer token.",
+      "item": [
+        {
+          "name": "List Amenities",
+          "request": {
+            "method": "GET",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/amenities",
+              "host": ["{{base_url}}"],
+              "path": ["amenities"]
+            },
+            "description": "Return all amenities ordered alphabetically. Requires authentication."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "[\n  { \"id\": 1, \"name\": \"Air Conditioning\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 2, \"name\": \"Balcony\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 3, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 4, \"name\": \"Parking\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 5, \"name\": \"Swimming Pool\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n]"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
       "name": "Properties",
       "description": "Property listing endpoints. All require a Sanctum bearer token.",
       "item": [
@@ -361,7 +409,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"agentId\": 1,\n      \"title\": \"Beautiful House in Sydney\",\n      \"description\": \"A stunning property with ocean views.\",\n      \"price\": \"750000.00\",\n      \"propertyType\": \"house\",\n      \"status\": \"for_sale\",\n      \"bedrooms\": 3,\n      \"bathrooms\": 2,\n      \"floorArea\": \"180.50\",\n      \"lotArea\": \"350.00\",\n      \"floors\": 2,\n      \"address\": \"12 Harbour St\",\n      \"city\": \"Sydney\",\n      \"province\": \"New South Wales\",\n      \"country\": \"AU\",\n      \"zipCode\": \"2000\",\n      \"latitude\": \"-33.8688000\",\n      \"longitude\": \"151.2093000\",\n      \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"id\": 1\n    }\n  ],\n  \"first_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"next_page_url\": null,\n  \"path\": \"http://api.localhost/api/properties\",\n  \"per_page\": 15,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
+              "body": "{\n  \"current_page\": 1,\n  \"data\": [\n    {\n      \"agentId\": 1,\n      \"title\": \"Beautiful House in Sydney\",\n      \"description\": \"A stunning property with ocean views.\",\n      \"price\": \"750000.00\",\n      \"propertyType\": \"house\",\n      \"status\": \"for_sale\",\n      \"bedrooms\": 3,\n      \"bathrooms\": 2,\n      \"floorArea\": \"180.50\",\n      \"lotArea\": \"350.00\",\n      \"floors\": 2,\n      \"address\": \"12 Harbour St\",\n      \"city\": \"Sydney\",\n      \"province\": \"New South Wales\",\n      \"country\": \"AU\",\n      \"zipCode\": \"2000\",\n      \"latitude\": \"-33.8688000\",\n      \"longitude\": \"151.2093000\",\n      \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n      \"id\": 1,\n      \"amenities\": [\n        { \"id\": 1, \"name\": \"Swimming Pool\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n        { \"id\": 2, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n      ]\n    }\n  ],\n  \"first_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"from\": 1,\n  \"last_page\": 1,\n  \"last_page_url\": \"http://api.localhost/api/properties?page=1\",\n  \"next_page_url\": null,\n  \"path\": \"http://api.localhost/api/properties\",\n  \"per_page\": 15,\n  \"prev_page_url\": null,\n  \"to\": 1,\n  \"total\": 1\n}"
             },
             {
               "name": "401 Unauthorized",
@@ -410,7 +458,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "404 Not Found",
@@ -474,7 +522,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Beautiful House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"750000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"for_sale\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "401 Unauthorized",
@@ -545,7 +593,7 @@
               "header": [
                 { "key": "Content-Type", "value": "application/json" }
               ],
-              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Updated House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"800000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"sold\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T01:00:00.000000Z\",\n  \"id\": 1\n}"
+              "body": "{\n  \"agentId\": 1,\n  \"title\": \"Updated House in Sydney\",\n  \"description\": \"A stunning property with ocean views.\",\n  \"price\": \"800000.00\",\n  \"propertyType\": \"house\",\n  \"status\": \"sold\",\n  \"bedrooms\": 3,\n  \"bathrooms\": 2,\n  \"floorArea\": \"180.50\",\n  \"lotArea\": \"350.00\",\n  \"floors\": 2,\n  \"address\": \"12 Harbour St\",\n  \"city\": \"Sydney\",\n  \"province\": \"New South Wales\",\n  \"country\": \"AU\",\n  \"zipCode\": \"2000\",\n  \"latitude\": \"-33.8688000\",\n  \"longitude\": \"151.2093000\",\n  \"createdAt\": \"2026-06-12T00:00:00.000000Z\",\n  \"updatedAt\": \"2026-06-12T01:00:00.000000Z\",\n  \"id\": 1,\n  \"amenities\": []\n}"
             },
             {
               "name": "403 Forbidden",
@@ -640,6 +688,271 @@
                 { "key": "Content-Type", "value": "application/json" }
               ],
               "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        }
+      ]
+    },
+    {
+      "name": "Property Amenities",
+      "description": "Manage amenities attached to a property listing. All endpoints require the authenticated agent to own the property.",
+      "item": [
+        {
+          "name": "Add Amenities to Property",
+          "request": {
+            "method": "POST",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amenityIds\": [1, 2, 3]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/properties/:propertyId/amenities",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":propertyId", "amenities"],
+              "variable": [
+                {
+                  "key": "propertyId",
+                  "value": "1",
+                  "description": "The ID of the property."
+                }
+              ]
+            },
+            "description": "Attach one or more amenities to a property. Existing amenities are kept — this operation never removes previously attached amenities. Returns the full list of amenities now on the property. `amenityIds` must be a non-empty array of existing amenity IDs."
+          },
+          "response": [
+            {
+              "name": "201 Created",
+              "status": "Created",
+              "code": 201,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "[\n  { \"id\": 1, \"name\": \"Swimming Pool\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 2, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n]"
+            },
+            {
+              "name": "422 Unprocessable Entity",
+              "status": "Unprocessable Entity",
+              "code": 422,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"The amenity ids field is required.\",\n  \"errors\": {\n    \"amenityIds\": [\"The amenity ids field is required.\"]\n  }\n}"
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"You do not have permission to update this property.\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Sync Amenities on Property",
+          "request": {
+            "method": "PUT",
+            "header": [
+              {
+                "key": "Content-Type",
+                "value": "application/json"
+              },
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "body": {
+              "mode": "raw",
+              "raw": "{\n  \"amenityIds\": [2, 4]\n}",
+              "options": {
+                "raw": {
+                  "language": "json"
+                }
+              }
+            },
+            "url": {
+              "raw": "{{base_url}}/properties/:propertyId/amenities",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":propertyId", "amenities"],
+              "variable": [
+                {
+                  "key": "propertyId",
+                  "value": "1",
+                  "description": "The ID of the property."
+                }
+              ]
+            },
+            "description": "Replace all amenities on a property with the provided list. Any previously attached amenities not in `amenityIds` are detached. Pass an empty array to remove all amenities. Returns the resulting amenity list."
+          },
+          "response": [
+            {
+              "name": "200 OK",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "[\n  { \"id\": 2, \"name\": \"Gym\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" },\n  { \"id\": 4, \"name\": \"Parking\", \"createdAt\": \"2026-06-12T00:00:00.000000Z\", \"updatedAt\": \"2026-06-12T00:00:00.000000Z\" }\n]"
+            },
+            {
+              "name": "200 OK — All cleared",
+              "status": "OK",
+              "code": 200,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "[]"
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"You do not have permission to update this property.\"\n}"
+            },
+            {
+              "name": "404 Not Found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "401 Unauthorized",
+              "status": "Unauthorized",
+              "code": 401,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Unauthenticated.\"\n}"
+            }
+          ]
+        },
+        {
+          "name": "Remove Amenity from Property",
+          "request": {
+            "method": "DELETE",
+            "header": [
+              {
+                "key": "Accept",
+                "value": "application/json"
+              },
+              {
+                "key": "Authorization",
+                "value": "Bearer {{auth_token}}"
+              }
+            ],
+            "url": {
+              "raw": "{{base_url}}/properties/:propertyId/amenities/:amenityId",
+              "host": ["{{base_url}}"],
+              "path": ["properties", ":propertyId", "amenities", ":amenityId"],
+              "variable": [
+                {
+                  "key": "propertyId",
+                  "value": "1",
+                  "description": "The ID of the property."
+                },
+                {
+                  "key": "amenityId",
+                  "value": "1",
+                  "description": "The ID of the amenity to detach."
+                }
+              ]
+            },
+            "description": "Detach a single amenity from a property. Returns `204 No Content` on success, `404` if the amenity is not attached to the property."
+          },
+          "response": [
+            {
+              "name": "204 No Content",
+              "status": "No Content",
+              "code": 204,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": ""
+            },
+            {
+              "name": "404 Not Found — amenity not attached",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Amenity not found on this property.\"\n}"
+            },
+            {
+              "name": "404 Not Found — property not found",
+              "status": "Not Found",
+              "code": 404,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"Property not found.\"\n}"
+            },
+            {
+              "name": "403 Forbidden",
+              "status": "Forbidden",
+              "code": 403,
+              "header": [
+                { "key": "Content-Type", "value": "application/json" }
+              ],
+              "body": "{\n  \"message\": \"You do not have permission to update this property.\"\n}"
             },
             {
               "name": "401 Unauthorized",

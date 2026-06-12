@@ -1,5 +1,59 @@
 # Release Notes
 
+## [Unreleased] — backend-property-amenities
+
+### Added
+
+#### Amenity Endpoints
+
+- `GET /api/amenities` — list all amenities ordered alphabetically; returns a flat array of `{ id, name, createdAt, updatedAt }`; requires Sanctum bearer token
+
+#### Property Amenity Endpoints
+
+- `POST /api/properties/{id}/amenities` — attach one or more amenities to a property without removing existing ones; accepts `amenityIds` array; returns `201` with the full updated amenity list; only the owning agent may call this
+- `PUT /api/properties/{id}/amenities` / `PATCH /api/properties/{id}/amenities` — sync all amenities on a property, replacing existing ones; pass an empty array to clear all; returns `200` with the resulting amenity list
+- `DELETE /api/properties/{id}/amenities/{amenityId}` — detach a single amenity from a property; returns `204 No Content`; returns `404` if the amenity is not attached
+
+#### Property Listing Response Updated
+
+- `GET /api/properties` and `GET /api/properties/{id}` — responses now include an `amenities` array (each item: `id`, `name`, `createdAt`, `updatedAt`); empty array when no amenities are attached
+- All other property write endpoints (`POST`, `PUT`/`PATCH`) also return `amenities` in the response
+
+#### Property Module (`app/Modules/Properties/`)
+
+- `AmenityModel` — Eloquent model for the `amenities` table with `HasFactory`
+- `AmenityModelFactory` — factory generating unique amenity names for tests
+- `PropertyModel` — added `amenities()` `BelongsToMany` relationship via `amenity_property` pivot
+- `AmenityController` — `index` action returning all amenities ordered alphabetically
+- `PropertyAmenityRepository` — `attach`, `sync`, `detach` methods accept `PropertyModel` directly (no internal re-fetch)
+- `PropertyAmenityService` — thin service layer delegating to `PropertyAmenityRepository`; methods accept `PropertyModel`
+- `PropertyAmenityController` — `store`, `update`, `destroy` actions; uses `PropertyService::showModel` for a single property lookup that covers both existence check and ownership check
+- `AddPropertyAmenitiesRequest` — validates `amenityIds` as a non-empty array of existing IDs
+- `SyncPropertyAmenitiesRequest` — validates `amenityIds` as a present array (empty allowed) of existing IDs
+- `AmenityRepositoryData` — Spatie Data object for amenity responses with `MapInputName` snake_case mapping and `#[DataCollectionOf]` attribute
+- `PropertyRepositoryData` — added `amenities` field typed with `#[DataCollectionOf(AmenityRepositoryData::class)]`
+- `PropertyRepository` — added `findModel` returning the raw `PropertyModel` without relations; `findAll`, `findById`, `create`, and `update` now eager-load `amenities`
+- `PropertyService` — added `showModel` returning `?PropertyModel` for callers that need the Eloquent instance
+- `PropertyModel` — added `amenities()` `BelongsToMany` relationship with correct `@return BelongsToMany<AmenityModel, $this, Pivot>` PHPDoc for PHPStan
+- `api_amenity.php` — new route file registering `GET /api/amenities`
+- `api_property.php` — registered three amenity management routes under `/{propertyId}/amenities`
+
+#### Seeder
+
+- `AmenitySeeder` — seeds 20 common amenities (Swimming Pool, Gym, Parking, Garden, Balcony, etc.) using `updateOrCreate` so it is safe to re-run; registered in `DatabaseSeeder` and runnable standalone via `php artisan db:seed --class=AmenitySeeder`
+
+#### Tests
+
+- `AmenityApiTest` — 3 feature tests covering: alphabetical ordering, empty list, and unauthenticated rejection
+- `PropertyAmenityApiTest` — 17 feature tests covering: attach (including no-duplicate guard), sync (including empty-array clear), detach, ownership enforcement (403), 404 for non-existent property and un-attached amenity, authentication requirements, and validation errors
+
+#### Postman
+
+- Postman collection updated — added `Amenities` folder with `List Amenities` request; added `Property Amenities` folder with `Add Amenities to Property`, `Sync Amenities on Property`, and `Remove Amenity from Property` requests with example success and error responses
+- `List Properties`, `Get Property`, `Create Property`, and `Update Property` example responses updated to include the `amenities` field
+
+---
+
 ## [Unreleased] — backend-manage-property
 
 ### Added

@@ -3,9 +3,11 @@
 namespace App\Modules\Properties\Transformations\Repositories;
 
 use App\Casts\TrimmedStringCast;
+use Spatie\LaravelData\Attributes\DataCollectionOf;
 use Spatie\LaravelData\Attributes\MapInputName;
 use Spatie\LaravelData\Attributes\WithCast;
 use Spatie\LaravelData\Data;
+use Spatie\LaravelData\DataCollection;
 
 class PropertyRepositoryData extends Data
 {
@@ -43,6 +45,8 @@ class PropertyRepositoryData extends Data
         #[MapInputName('updated_at')]
         public ?string $updatedAt = null,
         public ?int $id = null,
+        #[DataCollectionOf(AmenityRepositoryData::class)]
+        public ?DataCollection $amenities = null,
     ) {}
 
     /**

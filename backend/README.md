@@ -166,6 +166,16 @@ php artisan db:seed --class=AdminUserSeeder
 
 The seeder uses `updateOrCreate`, so it is safe to re-run — it will update the existing admin rather than create a duplicate. If `ADMIN_EMAIL` or `ADMIN_PASSWORD` is not set, the seeder will skip with a warning.
 
+### Seeding Amenities
+
+Run the amenity seeder to populate the `amenities` lookup table with 20 common property amenities (Swimming Pool, Gym, Parking, Garden, etc.):
+
+```bash
+php artisan db:seed --class=AmenitySeeder
+```
+
+This seeder is also included in the default `DatabaseSeeder`, so it runs automatically with `php artisan migrate --seed`. It uses `updateOrCreate` and is safe to re-run.
+
 ### Troubleshooting: Database Connection Error
 
 If you see `could not translate host name "postgres"` when running migrations or seeders, your `.env` `DB_HOST` may be set to `postgres` (a Docker service name) instead of a reachable host.
@@ -218,16 +228,29 @@ All API routes are prefixed with `/api` and defined per module under `app/Module
 | `DELETE` | `/api/admin/users/{user}/force-logout`  | Admin only    | Revoke all tokens for a user    |
 | `PATCH`  | `/api/admin/users/{user}/toggle-status` | Admin only    | Activate or deactivate an agent |
 
-### Properties _(coming soon)_
+### Properties
 
-| Method   | Endpoint                     | Description                     |
-| -------- | ---------------------------- | ------------------------------- |
-| `GET`    | `/api/properties`            | List all properties (paginated) |
-| `GET`    | `/api/properties/{id}`       | Get a single property           |
-| `POST`   | `/api/properties`            | Create a new property           |
-| `PUT`    | `/api/properties/{id}`       | Update a property               |
-| `DELETE` | `/api/properties/{id}`       | Delete a property               |
-| `POST`   | `/api/properties/{id}/media` | Upload media for a property     |
+| Method          | Endpoint               | Auth Required | Description                                                                        |
+| --------------- | ---------------------- | ------------- | ---------------------------------------------------------------------------------- |
+| `GET`           | `/api/properties`      | Bearer token  | List all properties (paginated, 15/page, newest first); includes `amenities` array |
+| `GET`           | `/api/properties/{id}` | Bearer token  | Get a single property by ID; includes `amenities` array                            |
+| `POST`          | `/api/properties`      | Bearer token  | Create a new property listing                                                      |
+| `PUT` / `PATCH` | `/api/properties/{id}` | Bearer token  | Partially update a property (owner only)                                           |
+| `DELETE`        | `/api/properties/{id}` | Bearer token  | Soft-delete a property (owner only)                                                |
+
+### Amenities
+
+| Method | Endpoint         | Auth Required | Description                             |
+| ------ | ---------------- | ------------- | --------------------------------------- |
+| `GET`  | `/api/amenities` | Bearer token  | List all amenities (alphabetical order) |
+
+### Property Amenities
+
+| Method          | Endpoint                                     | Auth Required | Description                                                |
+| --------------- | -------------------------------------------- | ------------- | ---------------------------------------------------------- |
+| `POST`          | `/api/properties/{id}/amenities`             | Bearer token  | Attach amenities to a property (owner only; no duplicates) |
+| `PUT` / `PATCH` | `/api/properties/{id}/amenities`             | Bearer token  | Sync/replace all amenities on a property (owner only)      |
+| `DELETE`        | `/api/properties/{id}/amenities/{amenityId}` | Bearer token  | Detach a single amenity from a property (owner only)       |
 
 > A Postman collection is available at `/postman/PropertyListingPlatform.postman_collection.json`.
 
