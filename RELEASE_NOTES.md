@@ -1,5 +1,64 @@
 # Release Notes
 
+## [Unreleased] — frontend-login
+
+### Added
+
+#### Authentication Pages (`frontend-react/src/pages/Auth/`)
+
+- `Login` page — email and password form; displays field-level validation errors from the API and a general error banner for non-422 failures; shows loading state while the request is in flight
+- `Register` page — name, email, password, and password confirmation form mirroring the backend `RegisterRequest` validation rules; same error display and loading behaviour as Login
+
+#### Dashboard Page (`frontend-react/src/pages/Dashboard.tsx`)
+
+- Protected route that requires a valid Sanctum token in `localStorage`
+- Header bar shows the authenticated user's name and role
+- **Sign out** button calls `DELETE /api/auth/logout`, clears `localStorage`, and redirects to `/login`; logout always succeeds locally even if the API call fails
+
+#### Routing (`frontend-react/src/App.tsx`)
+
+- `BrowserRouter` routes: `/login`, `/register`, `/dashboard`
+- Root `/` redirects to `/login`
+- `ProtectedRoute` wrapper redirects unauthenticated users to `/login`
+
+#### Auth Hooks (`frontend-react/src/hooks/useAuth.ts`)
+
+- `useLogin` — calls `POST /api/auth/login`, stores `token` and `user` in `localStorage`, navigates to `/dashboard`; surfaces 422 field errors and general API errors
+- `useRegister` — calls `POST /api/auth/register` with the same error-handling pattern
+- `useLogout` — calls `DELETE /api/auth/logout` with the Bearer token; clears `localStorage` and redirects to `/login` regardless of API outcome
+
+#### Shared Component
+
+- `InputField` — reusable Tailwind-styled input with accessible label, inline field error, disabled state, and error border styling
+
+#### API Client (`frontend-react/src/lib/axios.ts`)
+
+- Axios instance with `VITE_API_URL` base URL (defaults to `http://api.localhost/api`)
+- Request interceptor automatically attaches the `Authorization: Bearer <token>` header when a token is present in `localStorage`
+
+#### TypeScript Types (`frontend-react/src/types/auth.ts`)
+
+- `User`, `AuthResponse`, `LoginForm`, `RegisterForm`, `ValidationErrors`, `ApiError` — typed to match backend `UserModel`, `UserLoginCoreData`, and `UserRegisteredCoreData`
+
+#### Unit Tests
+
+- Test runner: **Vitest** with **React Testing Library** and **@testing-library/jest-dom**
+- 31 tests across 5 suites:
+  - `InputField` — renders, error styles, disabled state, onChange forwarding
+  - `useLogin` — success path, 422 field errors, non-422 general errors, processing state transitions
+  - `useRegister` — success path, 422 field errors
+  - `useLogout` — success path, API failure still clears session
+  - `Login` page — renders, submit, error banner, field errors, loading state
+  - `Register` page — renders all four fields, submit, error banner, field errors, loading state
+  - `Dashboard` page — renders user info, sign out button, logout call, loading state
+- New scripts: `npm test`, `npm run test:watch`, `npm run test:coverage`
+
+#### CI
+
+- Added `Test` step (`npm test`) to the existing `frontend` GitHub Actions job, running between lint and build
+
+---
+
 ## [Unreleased] — backend-property-amenities
 
 ### Added
