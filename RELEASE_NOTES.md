@@ -30,6 +30,10 @@
 - `PropertyRepository` — `findAll`, `findById`, `create`, and `update` now eager-load `amenities` and include them in the returned data
 - `api_property.php` — registered three new amenity routes under `/{propertyId}/amenities`
 
+#### Seeder
+
+- `AmenitySeeder` — seeds 20 common amenities (Swimming Pool, Gym, Parking, Garden, Balcony, etc.) using `updateOrCreate` so it is safe to re-run; registered in `DatabaseSeeder` and runnable standalone via `php artisan db:seed --class=AmenitySeeder`
+
 #### Tests
 
 - `PropertyAmenityApiTest` — 17 new feature tests covering: attach (including no-duplicate guard), sync (including empty-array clear), detach, ownership enforcement (403), 404 for non-existent property and un-attached amenity, authentication requirements, and validation errors

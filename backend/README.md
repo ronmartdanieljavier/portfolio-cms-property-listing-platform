@@ -166,6 +166,16 @@ php artisan db:seed --class=AdminUserSeeder
 
 The seeder uses `updateOrCreate`, so it is safe to re-run — it will update the existing admin rather than create a duplicate. If `ADMIN_EMAIL` or `ADMIN_PASSWORD` is not set, the seeder will skip with a warning.
 
+### Seeding Amenities
+
+Run the amenity seeder to populate the `amenities` lookup table with 20 common property amenities (Swimming Pool, Gym, Parking, Garden, etc.):
+
+```bash
+php artisan db:seed --class=AmenitySeeder
+```
+
+This seeder is also included in the default `DatabaseSeeder`, so it runs automatically with `php artisan migrate --seed`. It uses `updateOrCreate` and is safe to re-run.
+
 ### Troubleshooting: Database Connection Error
 
 If you see `could not translate host name "postgres"` when running migrations or seeders, your `.env` `DB_HOST` may be set to `postgres` (a Docker service name) instead of a reachable host.
