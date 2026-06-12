@@ -17,15 +17,17 @@ class AuthService
 
     /**
      * User registration service
+     *
      * @param  UserCoreData  $data  data required for registering a new user, including name, email, password, and role
      */
     public function register(UserCoreData $data): UserRegisteredCoreData
     {
         return $this->userRepository->register(UserRepositoryData::from($data->toArray()));
     }
-    
+
     /**
      * User login service
+     *
      * @param  string  $email  email of the user trying to authenticate
      * @param  string  $password  password of the user trying to authenticate
      */
@@ -36,6 +38,7 @@ class AuthService
 
     /**
      * User logout service
+     *
      * @param  UserModel  $user  the user to logout
      */
     public function logout(UserModel $user): void

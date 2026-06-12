@@ -9,7 +9,6 @@ use App\Modules\Users\Transformations\Cores\UserLoginCoreData;
 use App\Modules\Users\Transformations\Cores\UserRegisteredCoreData;
 use App\Modules\Users\Transformations\Repositories\UserRepositoryData;
 use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Validation\ValidationException;
 
 class UserRepository
@@ -20,6 +19,7 @@ class UserRepository
 
     /**
      * User registration method that creates a new user and returns the registered user data along with an API token.
+     *
      * @param  UserRepositoryData  $data  data required for registering a new user, including name, email, password, and role
      */
     public function register(UserRepositoryData $data): UserRegisteredCoreData
@@ -36,6 +36,7 @@ class UserRepository
 
     /**
      * User authentication method that verifies the provided email and password, checks if the account is active, and returns the authenticated user data along with an API token.
+     *
      * @param  string  $email  email of the user trying to authenticate
      * @param  string  $password  password of the user trying to authenticate
      */
@@ -55,6 +56,7 @@ class UserRepository
         }
         $token = $user->createToken('api-token')->plainTextToken;
         $userData = UserRepositoryData::from($user);
+
         return UserLoginCoreData::from(['user' => UserCoreData::from([
             ...$userData->toArray(),
             'role' => UserRoleEnum::from($userData->role)->value,
