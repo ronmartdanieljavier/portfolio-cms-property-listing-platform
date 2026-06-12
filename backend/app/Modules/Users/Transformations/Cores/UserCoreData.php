@@ -10,7 +10,7 @@ class UserCoreData extends Data
         public string $name,
         public string $email,
         public string $password,
-        public string $role,
+        public string $role = 'agent',
         public bool $isActive = true,
         public ?string $createdAt = null,
         public ?string $updatedAt = null
