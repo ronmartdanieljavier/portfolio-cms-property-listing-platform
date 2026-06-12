@@ -8,6 +8,7 @@ use Database\Factories\PropertyModelFactory;
 use Illuminate\Database\Eloquent\Attributes\Fillable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\Relations\BelongsToMany;
 use Illuminate\Database\Eloquent\SoftDeletes;
 
 #[Fillable([
@@ -39,6 +40,11 @@ class PropertyModel extends Model
     protected static function newFactory(): PropertyModelFactory
     {
         return PropertyModelFactory::new();
+    }
+
+    public function amenities(): BelongsToMany
+    {
+        return $this->belongsToMany(AmenityModel::class, 'amenity_property', 'property_id', 'amenity_id');
     }
 
     /**
