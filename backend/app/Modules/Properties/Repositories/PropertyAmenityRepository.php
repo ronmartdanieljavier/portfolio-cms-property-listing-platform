@@ -9,19 +9,14 @@ use Illuminate\Support\Collection;
 
 class PropertyAmenityRepository
 {
-    public function __construct(
-        protected PropertyModel $propertyModel
-    ) {}
-
     /**
      * Attach amenities to a property without removing existing ones.
      *
      * @param  array<int>  $amenityIds
      * @return Collection<int, AmenityRepositoryData>
      */
-    public function attach(int $propertyId, array $amenityIds): Collection
+    public function attach(PropertyModel $property, array $amenityIds): Collection
     {
-        $property = $this->propertyModel->findOrFail($propertyId);
         $property->amenities()->syncWithoutDetaching($amenityIds);
 
         return $property->amenities()->get()
@@ -34,9 +29,8 @@ class PropertyAmenityRepository
      * @param  array<int>  $amenityIds
      * @return Collection<int, AmenityRepositoryData>
      */
-    public function sync(int $propertyId, array $amenityIds): Collection
+    public function sync(PropertyModel $property, array $amenityIds): Collection
     {
-        $property = $this->propertyModel->findOrFail($propertyId);
         $property->amenities()->sync($amenityIds);
 
         return $property->amenities()->get()
@@ -46,10 +40,8 @@ class PropertyAmenityRepository
     /**
      * Detach a single amenity from a property.
      */
-    public function detach(int $propertyId, int $amenityId): bool
+    public function detach(PropertyModel $property, int $amenityId): bool
     {
-        $property = $this->propertyModel->findOrFail($propertyId);
-
         return (bool) $property->amenities()->detach($amenityId);
     }
 }

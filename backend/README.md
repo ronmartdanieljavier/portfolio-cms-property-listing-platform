@@ -238,6 +238,12 @@ All API routes are prefixed with `/api` and defined per module under `app/Module
 | `PUT` / `PATCH` | `/api/properties/{id}` | Bearer token  | Partially update a property (owner only)                                           |
 | `DELETE`        | `/api/properties/{id}` | Bearer token  | Soft-delete a property (owner only)                                                |
 
+### Amenities
+
+| Method | Endpoint         | Auth Required | Description                             |
+| ------ | ---------------- | ------------- | --------------------------------------- |
+| `GET`  | `/api/amenities` | Bearer token  | List all amenities (alphabetical order) |
+
 ### Property Amenities
 
 | Method          | Endpoint                                     | Auth Required | Description                                                |

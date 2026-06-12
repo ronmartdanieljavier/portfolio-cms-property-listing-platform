@@ -22,17 +22,17 @@ class PropertyAmenityController extends Controller
      */
     public function store(AddPropertyAmenitiesRequest $request, int $propertyId): JsonResponse
     {
-        $property = $this->propertyService->show($propertyId);
+        $property = $this->propertyService->showModel($propertyId);
 
         if ($property === null) {
             return response()->json(['message' => 'Property not found.'], Response::HTTP_NOT_FOUND);
         }
 
-        if ($property->agentId !== $request->user()->id) {
+        if ($property->agent_id !== $request->user()->id) {
             return response()->json(['message' => 'You do not have permission to update this property.'], Response::HTTP_FORBIDDEN);
         }
 
-        $amenities = $this->propertyAmenityService->add($propertyId, $request->validated('amenityIds'));
+        $amenities = $this->propertyAmenityService->add($property, $request->validated('amenityIds'));
 
         return response()->json($amenities, Response::HTTP_CREATED);
     }
@@ -42,17 +42,17 @@ class PropertyAmenityController extends Controller
      */
     public function update(SyncPropertyAmenitiesRequest $request, int $propertyId): JsonResponse
     {
-        $property = $this->propertyService->show($propertyId);
+        $property = $this->propertyService->showModel($propertyId);
 
         if ($property === null) {
             return response()->json(['message' => 'Property not found.'], Response::HTTP_NOT_FOUND);
         }
 
-        if ($property->agentId !== $request->user()->id) {
+        if ($property->agent_id !== $request->user()->id) {
             return response()->json(['message' => 'You do not have permission to update this property.'], Response::HTTP_FORBIDDEN);
         }
 
-        $amenities = $this->propertyAmenityService->sync($propertyId, $request->validated('amenityIds'));
+        $amenities = $this->propertyAmenityService->sync($property, $request->validated('amenityIds'));
 
         return response()->json($amenities);
     }
@@ -63,17 +63,17 @@ class PropertyAmenityController extends Controller
     public function destroy(int $propertyId, int $amenityId): JsonResponse
     {
         $request = request();
-        $property = $this->propertyService->show($propertyId);
+        $property = $this->propertyService->showModel($propertyId);
 
         if ($property === null) {
             return response()->json(['message' => 'Property not found.'], Response::HTTP_NOT_FOUND);
         }
 
-        if ($property->agentId !== $request->user()->id) {
+        if ($property->agent_id !== $request->user()->id) {
             return response()->json(['message' => 'You do not have permission to update this property.'], Response::HTTP_FORBIDDEN);
         }
 
-        $detached = $this->propertyAmenityService->remove($propertyId, $amenityId);
+        $detached = $this->propertyAmenityService->remove($property, $amenityId);
 
         if (! $detached) {
             return response()->json(['message' => 'Amenity not found on this property.'], Response::HTTP_NOT_FOUND);

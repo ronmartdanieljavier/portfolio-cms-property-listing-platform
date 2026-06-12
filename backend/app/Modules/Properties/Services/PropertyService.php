@@ -2,6 +2,7 @@
 
 namespace App\Modules\Properties\Services;
 
+use App\Modules\Properties\Models\PropertyModel;
 use App\Modules\Properties\Repositories\PropertyRepository;
 use App\Modules\Properties\Transformations\Cores\PropertyCoreData;
 use App\Modules\Properties\Transformations\Repositories\PropertyRepositoryData;
@@ -29,6 +30,15 @@ class PropertyService
     public function show(int $id): ?PropertyRepositoryData
     {
         return $this->propertyRepository->findById($id);
+    }
+
+    /**
+     * Find the raw Eloquent model by ID without loading relations.
+     * Use when you need the model instance itself (e.g. to operate on relationships).
+     */
+    public function showModel(int $id): ?PropertyModel
+    {
+        return $this->propertyRepository->findModel($id);
     }
 
     /**

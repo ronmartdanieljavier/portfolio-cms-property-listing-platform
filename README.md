@@ -41,6 +41,12 @@ Full-stack property listing and CMS platform built with Laravel, React, PostgreS
 
 > Request bodies use camelCase keys: `propertyType`, `floorArea`, `lotArea`, `zipCode`. `propertyType` must be one of `house`, `apartment`, `condo`, `townhouse`, `land`, `commercial`. `status` must be one of `for_sale`, `for_rent`, `sold`, `rented`; defaults to `for_sale` on creation. List endpoint returns 15 results per page. List and detail responses include an `amenities` array.
 
+### Amenities
+
+| Method | Endpoint         | Description                             | Auth    |
+| ------ | ---------------- | --------------------------------------- | ------- |
+| `GET`  | `/api/amenities` | List all amenities (alphabetical order) | Sanctum |
+
 ### Property Amenities
 
 | Method          | Endpoint                                     | Description                            | Auth    |

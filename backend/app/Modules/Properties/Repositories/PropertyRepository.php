@@ -29,6 +29,14 @@ class PropertyRepository
     }
 
     /**
+     * Find the raw Eloquent model by ID or return null.
+     */
+    public function findModel(int $id): ?PropertyModel
+    {
+        return $this->propertyModel->find($id);
+    }
+
+    /**
      * Find a property by its ID or return null.
      */
     public function findById(int $id): ?PropertyRepositoryData
