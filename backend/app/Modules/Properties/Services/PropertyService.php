@@ -5,7 +5,7 @@ namespace App\Modules\Properties\Services;
 use App\Modules\Properties\Repositories\PropertyRepository;
 use App\Modules\Properties\Transformations\Cores\PropertyCoreData;
 use App\Modules\Properties\Transformations\Repositories\PropertyRepositoryData;
-use Illuminate\Contracts\Pagination\LengthAwarePaginator;
+use Illuminate\Pagination\LengthAwarePaginator;
 
 class PropertyService
 {
@@ -16,7 +16,7 @@ class PropertyService
     /**
      * Return a paginated list of all properties.
      *
-     * @return LengthAwarePaginator<PropertyRepositoryData>
+     * @return LengthAwarePaginator<int, PropertyRepositoryData>
      */
     public function list(int $perPage = 15): LengthAwarePaginator
     {
