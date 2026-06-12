@@ -26,9 +26,9 @@ use Illuminate\Database\Eloquent\SoftDeletes;
     'floors',
     'address',
     'city',
-    'province',
+    'state',
     'country',
-    'zip_code',
+    'postcode',
     'latitude',
     'longitude',
 ])]

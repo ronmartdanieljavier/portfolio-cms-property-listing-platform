@@ -22,9 +22,9 @@ describe('store', function () {
             'bathrooms' => 2,
             'address' => '12 Harbour St',
             'city' => 'Sydney',
-            'province' => 'New South Wales',
+            'state' => 'New South Wales',
             'country' => 'AU',
-            'zipCode' => '2000',
+            'postcode' => '2000',
         ], ['Authorization' => "Bearer {$token}"]);
 
         $response->assertStatus(201)
@@ -48,7 +48,7 @@ describe('store', function () {
             'propertyType' => PropertyTypeEnum::Apartment->value,
             'address' => '5 Collins St',
             'city' => 'Melbourne',
-            'province' => 'Victoria',
+            'state' => 'Victoria',
         ], ['Authorization' => "Bearer {$token}"]);
 
         $response->assertStatus(201)
@@ -65,7 +65,7 @@ describe('store', function () {
 
         $this->postJson('/api/properties', [], ['Authorization' => "Bearer {$token}"])
             ->assertUnprocessable()
-            ->assertJsonValidationErrors(['title', 'price', 'propertyType', 'address', 'city', 'province']);
+            ->assertJsonValidationErrors(['title', 'price', 'propertyType', 'address', 'city', 'state']);
     });
 
     it('fails with an invalid property type', function () {
@@ -78,7 +78,7 @@ describe('store', function () {
             'propertyType' => 'invalid_type',
             'address' => '1 Test St',
             'city' => 'Brisbane',
-            'province' => 'Queensland',
+            'state' => 'Queensland',
         ], ['Authorization' => "Bearer {$token}"])
             ->assertUnprocessable()
             ->assertJsonValidationErrors('propertyType');
