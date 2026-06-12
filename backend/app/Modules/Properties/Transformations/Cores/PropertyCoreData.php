@@ -13,7 +13,7 @@ class PropertyCoreData extends Data
         public ?string $propertyType = null,
         public ?string $address = null,
         public ?string $city = null,
-        public ?string $province = null,
+        public ?string $state = null,
         public ?string $description = null,
         public ?string $status = null,
         public ?int $bedrooms = null,

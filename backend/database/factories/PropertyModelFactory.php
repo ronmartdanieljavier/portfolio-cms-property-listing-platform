@@ -34,9 +34,9 @@ class PropertyModelFactory extends Factory
             'floors' => fake()->numberBetween(1, 3),
             'address' => fake()->streetAddress(),
             'city' => fake()->city(),
-            'province' => fake()->state(),
+            'state' => fake()->state(),
             'country' => 'AU',
-            'zip_code' => fake()->postcode(),
+            'postcode' => fake()->postcode(),
             'latitude' => fake()->latitude(-44, -10),
             'longitude' => fake()->longitude(113, 154),
         ];

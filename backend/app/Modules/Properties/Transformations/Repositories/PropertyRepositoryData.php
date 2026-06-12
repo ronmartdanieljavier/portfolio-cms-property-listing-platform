@@ -24,7 +24,7 @@ class PropertyRepositoryData extends Data
         #[WithCast(TrimmedStringCast::class)]
         public ?string $city = null,
         #[WithCast(TrimmedStringCast::class)]
-        public ?string $province = null,
+        public ?string $state = null,
         #[WithCast(TrimmedStringCast::class)]
         public ?string $description = null,
         public ?string $status = null,
@@ -36,8 +36,7 @@ class PropertyRepositoryData extends Data
         public ?string $lotArea = null,
         public ?int $floors = null,
         public ?string $country = null,
-        #[MapInputName('zip_code')]
-        public ?string $zipCode = null,
+        public ?string $postcode = null,
         public ?string $latitude = null,
         public ?string $longitude = null,
         #[MapInputName('created_at')]
@@ -68,9 +67,9 @@ class PropertyRepositoryData extends Data
             'floors' => $this->floors,
             'address' => $this->address,
             'city' => $this->city,
-            'province' => $this->province,
+            'state' => $this->state,
             'country' => $this->country ?? 'AU',
-            'zip_code' => $this->zipCode,
+            'postcode' => $this->postcode,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ];
@@ -94,9 +93,9 @@ class PropertyRepositoryData extends Data
             'floors' => $this->floors,
             'address' => $this->address,
             'city' => $this->city,
-            'province' => $this->province,
+            'state' => $this->state,
             'country' => $this->country,
-            'zip_code' => $this->zipCode,
+            'postcode' => $this->postcode,
             'latitude' => $this->latitude,
             'longitude' => $this->longitude,
         ], fn ($value) => $value !== null);

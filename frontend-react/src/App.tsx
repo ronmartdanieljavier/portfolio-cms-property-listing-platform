@@ -2,6 +2,10 @@ import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom";
 import Login from "./pages/Auth/Login";
 import Register from "./pages/Auth/Register";
 import Dashboard from "./pages/Dashboard";
+import AuthLayout from "./layouts/AuthLayout";
+import AdminRoute from "./components/AdminRoute";
+import AgentUsers from "./pages/AgentUsers/AgentUsers";
+import Properties from "./pages/Properties/Properties";
 
 function ProtectedRoute({ children }: { children: React.ReactNode }) {
   const token = localStorage.getItem("token");
@@ -16,13 +20,23 @@ export default function App() {
         <Route path="/login" element={<Login />} />
         <Route path="/register" element={<Register />} />
         <Route
-          path="/dashboard"
           element={
             <ProtectedRoute>
-              <Dashboard />
+              <AuthLayout />
             </ProtectedRoute>
           }
-        />
+        >
+          <Route path="/dashboard" element={<Dashboard />} />
+          <Route
+            path="/agent-users"
+            element={
+              <AdminRoute>
+                <AgentUsers />
+              </AdminRoute>
+            }
+          />
+          <Route path="/properties" element={<Properties />} />
+        </Route>
       </Routes>
     </BrowserRouter>
   );

@@ -33,9 +33,9 @@ class CreatePropertyRequest extends FormRequest
             'floors' => ['nullable', 'integer', 'min:1', 'max:255'],
             'address' => ['required', 'string', 'max:255'],
             'city' => ['required', 'string', 'max:255'],
-            'province' => ['required', 'string', 'max:255'],
+            'state' => ['required', 'string', 'max:255'],
             'country' => ['sometimes', 'string', 'size:2'],
-            'zipCode' => ['nullable', 'string', 'max:10'],
+            'postcode' => ['nullable', 'string', 'max:10'],
             'latitude' => ['nullable', 'numeric', 'between:-90,90'],
             'longitude' => ['nullable', 'numeric', 'between:-180,180'],
         ];
